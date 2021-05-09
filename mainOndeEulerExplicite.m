@@ -38,8 +38,6 @@ disp(s);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     Fonction non fournie : A IMPLEMENTER
 disp('Calcul en cours...')
-%[t,x,u]=EulerExpliciteMix(EDP,Nt,Nx,1,0,1,0);
-%[t,x,u]=EulerExplicitebis(EDP,Nt,Nx);
 [t,x,u]=OndeEulerExplicite(EDP,Nt,Nx);
 disp('Fin du calcul.')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
