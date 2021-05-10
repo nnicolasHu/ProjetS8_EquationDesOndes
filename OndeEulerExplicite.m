@@ -1,4 +1,4 @@
-function [t,x,u]=OndeEulerExplicite(EDP,Nt,Nx)
+function [t,x,u,dx,dt]=OndeEulerExplicite(EDP,Nt,Nx)
   t0=EDP.t0;
   T=EDP.T;
   a=EDP.a;
