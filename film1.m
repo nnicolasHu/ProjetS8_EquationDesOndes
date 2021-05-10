@@ -26,5 +26,5 @@ uex=@(t,x) cos((2*m+1)*pi/(2*L)*x)*cos(c*(2*m+1)*pi/(2*L)*t);
 U = CalculF(uex,t,x);
 if PLOT
   figure(1);
-  PlotSol(t,x,U,FREQ,'solution exacte',[x(1) x(end) -1 1],0.1);
+  PlotSol2(t,x,U,'freq',FREQ,'title','solution exacte','axis',[x(1) x(end) -1 1],'pause',0.1);
 end
