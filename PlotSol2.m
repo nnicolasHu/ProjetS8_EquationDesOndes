@@ -31,7 +31,7 @@ function PlotSol2(t,x,u,varargin)
   if length(R.title)>0
     format=[R.title,' - temps t=%f'];
   end
-  R
+  %R
   for n=1:R.freq:nt
       plot(x,u(:,n))
       if ~isempty(R.axis)
