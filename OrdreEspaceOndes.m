@@ -42,9 +42,9 @@ figure(1);
 loglog(pas,err,'r');
 hold on;
 loglog(pas,pas.^2,'ko-');
-title("Représentation de l'erreur en fonction de h");
-legend(strcat('Erreur(h), ordre2 : ',num2str(pente)),"O(h^2)","location", "southeast");
-xlabel("h");
+title("Représentation de l'erreur en fonction de dx");
+legend(strcat('Erreur(dx), pente : ',num2str(pente)),"O(h^2)","location", "southeast");
+xlabel("dx");
 ylabel('Erreur en norme L^\infty');
 grid on;
 

@@ -5,8 +5,8 @@ N_pas=3;
 pas=zeros(1,N_pas);
 err=zeros(1,N_pas);
 
-Nt=500;
-Nx=100;
+Nt=1000;
+Nx=1000;
 
 
 L=1; %longueur du domaine
@@ -42,8 +42,8 @@ figure(1);
 loglog(pas,err,'r');
 hold on;
 loglog(pas,pas.^2,'ko-');
-title("Représentation de l'erreur en fonction de h");
-legend(strcat('Erreur(h), ordre2 : ',num2str(pente)),"O(h^2)","location", "southeast");
-xlabel("h");
+title("Représentation de l'erreur en fonction de dt");
+legend(strcat('Erreur(dt), pente : ',num2str(pente)),"O(dt^2)","location", "southeast");
+xlabel("dt");
 ylabel('Erreur en norme L^\infty');
 grid on;
