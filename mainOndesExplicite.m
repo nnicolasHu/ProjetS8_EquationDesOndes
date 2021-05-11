@@ -64,4 +64,3 @@ if PLOT
 end
 
 fprintf('Erreur relative  (max en temps et espace) : %e\n',max(Ninf)/max(max(abs(Uex))));
-
