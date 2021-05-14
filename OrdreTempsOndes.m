@@ -1,12 +1,12 @@
 close all
 
 %ici on fixe le dx et on fait varier dt
-N_pas=3;
+N_pas=2;
 pas=zeros(1,N_pas);
 err=zeros(1,N_pas);
 
-Nt=1000;
-Nx=1000;
+Nt=2000;
+Nx=1800;
 
 
 L=1; %longueur du domaine
@@ -16,8 +16,8 @@ T=2; %temps de la simulation
 EDP.a=-L; EDP.b=L;
 EDP.t0=0; EDP.T=T;
 EDP.c=1; EDP.m=3;
-EDP.uex=@(t,x) cos((2*EDP.m+1)*pi/(2*L)*x)*cos(EDP.c*(2*EDP.m+1)*pi/(2*L)*t);
-EDP.u0=@(x) cos((2*EDP.m+1)*pi/(2*L)*x);
+EDP.uex=@(t,x) cos((2*EDP.m+1)*pi*x/(2*L))*cos(EDP.c*(2*EDP.m+1)*pi*t/(2*L));
+EDP.u0=@(x) cos((2*EDP.m+1)*pi*x/(2*L));
 EDP.u1=@(x) 0*x;
 EDP.ua=@(t) 0*t;
 EDP.ub=@(t) 0*t;
@@ -26,13 +26,13 @@ EDP.ub=@(t) 0*t;
 for i=1:N_pas
   ht=EDP.T/Nt; hx=(EDP.b-EDP.a)/Nx;
   CFL=EDP.c*ht/hx;
-  s=sprintf('Pour i=%d, CFL : si %f <= 1 => convergence',i,CFL);
+  s=sprintf('Pour i=%d, CFL : si %f < 1 => convergence',i,CFL);
   disp(s);
   
   [t,x,u]=EulerExplicite(EDP,Nt,Nx);
   
   pas(i)=ht;
-  err(i)=max(max(abs(u-CalculF(EDP.uex,t,x)),[],2));
+  err(i)=max(max(abs(u-CalculF(EDP.uex,t,x))));
   Nt=2*Nt;
 end
 

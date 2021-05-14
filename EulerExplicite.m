@@ -11,7 +11,7 @@ function [t,x,u]=EulerExplicite(EDP,Nt,Nx)
   u=zeros(Nx+1,Nt+1); %colonne=espace et ligne=temps
   u(:,1)=EDP.u0(x)'; %bord gauche (t=t0)
   %Calcul de u en t=dt (u(:,2))
-  u(:,2)=( spMatDiag(ones(1,Nx+1)) + cte/2*Lap1D(Nx+1))*EDP.u0(x)' + dt*EDP.u1(x)';
+  u(:,2)=( spMatDiag(ones(1,Nx+1)) + (cte/2)*Lap1D(Nx+1))*EDP.u0(x)' + dt*EDP.u1(x)';
   
   u(1,:)=EDP.ua(t); %bord haud (x=-L)
   u(end,:)=EDP.ub(t); %bord bas (x=L)
