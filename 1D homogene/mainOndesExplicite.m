@@ -79,12 +79,15 @@ if PLOT_EXACT
     hold on;
     plot (x,Uex(:,i),";solution exacte;");
     legend();
+    xlabel("x");
     title(strcat("Représentation de la solution en fonction de x en t=", num2str(t(i))));
     hold off;
     
     %erreur
-    %figure();
-    %plot(x,abs(u(:,i)-Uex(:,i)));
+    figure();
+    plot(x,abs(u(:,i)-Uex(:,i)));
+    xlabel("x");
+    title(strcat("Représentation de l'erreur en fonction de x en t=", num2str(t(i))));
   endfor
   
   
