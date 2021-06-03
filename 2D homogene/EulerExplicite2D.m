@@ -8,8 +8,8 @@ function [t,x,y,u]=EulerExplicite2D(EDP,Nt,Nx,Ny)
   y=EDP.c + dy*[0:Ny];
   
   %initialisation
-  u=zeros(Ny+1,Nx+1,Nt+1); %1er coord = y(ligne), 2è coord = x(colonne), 3è coord = temps(hauteur)
-  u(:,:,1)=calculEspace(EDP.u0,x,y);
+  u=zeros((Ny+1)*(Nx+1),Nt+1); %le carré en espace est "compresse" en un vecteur colone
+  %u(:,1)=calculEspace(EDP.u0,x,y);
   
   
 endfunction
