@@ -3,7 +3,7 @@ close all
 
 PLOT = 0;
 FREQ = 10;
-PLOT_EXACT = 1;
+PLOT_EXACT = 0;
 
 L=1; %longueur du domaine
 T=2; %temps de la simulation
@@ -92,4 +92,3 @@ if PLOT_EXACT
   
   
 end
-
