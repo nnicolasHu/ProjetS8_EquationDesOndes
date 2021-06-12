@@ -9,14 +9,12 @@ Nt =10; Nx=40; Ny=30;
 % 1. Initialisation de la structure EDP
 EDP.a=0; EDP.b=L;
 EDP.t0=0; EDP.T=T;
-EDP.c=1; EDP.k=2;
-EDP.lambda=2*pi/EDP.k;
-EDP.f=EDP.c/EDP.lambda;
-EDP.omega=2*pi*EDP.f;
+EDP.c=1;
 EDP.uex=@(t,x,y) sin(pi*x).*sin(pi*y).*cos(t);
 EDP.u0=@(x,y) sin(pi*x).*sin(pi*y);
 EDP.u1=@(x,y) 0;
-EDP.ubord=@(x,y,t) 0;
+EDP.ubord=@(t,x,y) 0;
+EDP.f =@(t,x,y) (2*pi^2 -1) sin(pi*x).*sin(pi*y).*cos(t)
 
 
 [t,x,y,u]=EulerExplicite2D(EDP,Nt,Nx,Ny);
