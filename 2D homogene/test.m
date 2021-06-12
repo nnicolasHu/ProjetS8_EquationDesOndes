@@ -15,9 +15,8 @@ EDP.f=EDP.c/EDP.lambda;
 EDP.omega=2*pi*EDP.f;
 EDP.uex=@(t,x,y) sin(pi*x).*sin(pi*y).*cos(t);
 EDP.u0=@(x,y) sin(pi*x).*sin(pi*y);
-EDP.u1=@(x) i*EDP.omega*exp(-i*EDP.k*x);
-EDP.ua=@(t) exp(i*(EDP.omega*t-EDP.k*EDP.a));
-EDP.ub=@(t) exp(i*(EDP.omega*t-EDP.k*EDP.b));
+EDP.u1=@(x,y) 0;
+EDP.ubord=@(x,y,t) 0;
 
 
 [t,x,y,u]=EulerExplicite2D(EDP,Nt,Nx,Ny);
