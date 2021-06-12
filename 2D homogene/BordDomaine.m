@@ -1,0 +1,1 @@
+function BD=BordDomaine(nx,ny)  i=0:nx-1;  j=0:ny-1;  BD.Sud=bijF(i,0,nx);  BD.Nord=bijF(i,ny-1,nx);  BD.Est=bijF(nx-1,j,nx);  BD.Ouest=bijF(0,j,nx);endfunction
