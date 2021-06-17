@@ -24,9 +24,12 @@ EDP.f =@(t,x,y) (EDP.c^2 *2* pi^2 -1)*sin(pi*x).*sin(pi*y).*cos(t);
 [t,x,y,u]=EulerExplicite2D(EDP,Nt,Nx,Ny);
 [yy xx] = meshgrid(y,x);
 
-for n=1:5:Nt
-  figure()
-  mesh(xx,yy,abs(EDP.uex(t(n),xx,yy)-Vec2dToMatrix(u(:,n),Nx+1,Ny+1)));
+for n=15
+  figure(1)
+  surf(xx,yy,EDP.uex(t(n),xx,yy));
+  #surf(xx,yy,abs(EDP.uex(t(n),xx,yy)-Vec2dToMatrix(u(:,n),Nx+1,Ny+1)));
+  figure(2)
+  surf(xx,yy,Vec2dToMatrix(u(:,n),Nx+1,Ny+1))
 endfor
 ##for i=1:N_pas
 ##  hy=(EDP.t0-EDP.T)/Ny;
