@@ -15,13 +15,13 @@ EDP.t0=0; EDP.T=T;
 EDP.c=1;
 EDP.uex=@(t,x,y) sin(pi*x).*sin(pi*y).*cos(t);
 EDP.u0=@(x,y) sin(pi*x).*sin(pi*y);
-EDP.u1=@(x,y) zeros(1,length(x));
+EDP.u1=@(x,y) 0;
 EDP.ubord=@(t,x,y) 0;
 EDP.f =@(t,x,y) (EDP.c^2 *2* pi^2 -1)*sin(pi*x).*sin(pi*y).*cos(t);
 
 
 
-[t,x,y,u]=EulerExplicite2D(EDP,Nt,Nx,Ny);
+[t,x,y,u]=EulerExplicite2Dbis(EDP,Nt,Nx,Ny);
 [yy xx] = meshgrid(y,x);
 
 for n=15
