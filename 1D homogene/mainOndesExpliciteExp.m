@@ -1,34 +1,34 @@
 clear all
 close all
 
-PLOT = 0;
-FREQ = 10;
-PLOT_EXACT = 1;
+PLOT = 1;
+FREQ = 15;
+PLOT_EXACT = 0;
 
 L=1; %longueur du domaine
 T=2; %temps de la simulation
 
-% 1. Initialisation de la structure EDP_reel
-EDP_reel.a=-L; EDP_reel.b=L;
-EDP_reel.t0=0; EDP_reel.T=T;
-EDP_reel.c=1; EDP_reel.k=1;
-EDP_reel.lambda=2*pi/EDP_reel.k;
-EDP_reel.freq=EDP_reel.c/EDP_reel.lambda;
-EDP_reel.omega=2*pi*EDP_reel.freq;
-EDP_reel.uex=@(t,x) cos(EDP_reel.omega*t-EDP_reel.k*x);
-EDP_reel.u0=@(x) cos(-EDP_reel.k*x);
-EDP_reel.u1=@(x) EDP_reel.omega*cos(-EDP_reel.k*x);
-EDP_reel.ua=@(t) cos(EDP_reel.omega*t-EDP_reel.k*EDP_reel.a);
-EDP_reel.ub=@(t) cos(EDP_reel.omega*t-EDP_reel.k*EDP_reel.b);
+% 1. Initialisation de la structure EDP
+EDP.a=-L; EDP.b=L;
+EDP.t0=0; EDP.T=T;
+EDP.c=1; EDP.k=2;
+EDP.lambda=2*pi/EDP.k;
+EDP.freq=EDP.c/EDP.lambda;
+EDP.omega=2*pi*EDP.freq;
+EDP.uex=@(t,x) cos(EDP.omega*t-EDP.k*x);
+EDP.u0=@(x) cos(-EDP.k*x);
+EDP.u1=@(x) -EDP.omega*sin(-EDP.k*x);
+EDP.ua=@(t) cos(EDP.omega*t-EDP.k*EDP.a);
+EDP.ub=@(t) cos(EDP.omega*t-EDP.k*EDP.b);
 
 % 2. Parametres de discretisation
 
-Nx=1000;
-Nt=1500;
+Nx=100;
+Nt=1000;
 
 % 3. Verification de la condition de C.F.L.
-ht=EDP_reel.T/Nt; hx=(EDP_reel.b-EDP_reel.a)/Nx;
-CFL=EDP_reel.c*ht/hx;
+ht=EDP.T/Nt; hx=(EDP.b-EDP.a)/Nx;
+CFL=EDP.c*ht/hx;
 s=sprintf('CFL : si (%f <= 1) => convergence',CFL);
 disp(s);
 
@@ -36,15 +36,15 @@ disp(s);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     Fonction non fournie : A IMPLEMENTER
 disp('Calcul en cours...')
-[t,x,u_relle]=EulerExplicite(EDP_reel,Nt,Nx);
+[t,x,u_relle]=EulerExplicite(EDP,Nt,Nx);
 disp('Fin du calcul.')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % 5. Representations graphiques
-Uex_relle=real(CalculF(EDP_reel.uex,t,x)); % Solution exacte
+Uex_relle=CalculF(EDP.uex,t,x); % Solution exacte
 MIN=min(min(Uex_relle));
 MAX=max(max(Uex_relle));
-if PLOT
+if PLOT && 0
     figure(1)
     PlotSol2(t,x,u_relle,'freq',FREQ,'title','Sol. Appr.','axis',[x(1) x(end) MIN MAX],'pause',0.1)
     % PlotSol(t,x,u,FREQ,'Sol. Appr.',[x(1) x(end) MIN MAX],0.1) % Old version
@@ -58,7 +58,7 @@ else
     AXIS=[x(1) x(end) 0 MAX];
 end
 
-if PLOT
+if PLOT && 0
     figure(2)
     % PlotSol(t,x,Err,FREQ,'Erreur',AXIS,0.1)
     PlotSol2(t,x,Err,'freq',FREQ,'title','Erreur','axis',AXIS,'pause',0.1)
@@ -86,11 +86,6 @@ if PLOT_EXACT
     title(strcat("Représentation de la solution en fonction de x en t=", num2str(t(i))));
     hold off;
     
-    %erreur
-    figure();
-    plot(x,abs(u_relle(:,i)-Uex_relle(:,i)));
-    xlabel("x");
-    title(strcat("Représentation de l'erreur en fonction de x en t=", num2str(t(i))));
   endfor
   
   

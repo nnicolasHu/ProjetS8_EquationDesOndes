@@ -16,9 +16,11 @@ function [t,x,u]=EulerExplicite(EDP,Nt,Nx)
   u(1,:)=EDP.ua(t); %bord haud (x=-L)
   u(end,:)=EDP.ub(t); %bord bas (x=L)
   
-  M = spMatDiag(2*ones(1,Nx-1))+ cte*Lap1D(Nx-1);
+  M = spMatDiag(2*ones(1,Nx+1))+ cte*Lap1D(Nx+1);
   for n=2:Nt
-    u(2:Nx,n+1) = M*u(2:Nx,n) - u(2:Nx,n-1);  
+    u(:,n+1) = M*u(:,n) - u(:,n-1);
+    u(1,n+1) = EDP.ua(t(n+1));
+    u(end,n+1) = EDP.ub(t(n+1));
   endfor
   
   
