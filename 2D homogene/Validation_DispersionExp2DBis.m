@@ -14,22 +14,15 @@ EDP.c=1; EDP.k1=[3,6,9]; EDP.k2=[3,6,9];
 
 % 6. Représentation graphique pour certains temps
 Nx=10;Ny=10;
-for indice=1:length(EDP.k1)
-  k1 = EDP.k1(indice);
-  k2 = 9;
+for indice=1:length(EDP.k2)
+  k2 = EDP.k2(indice);
+  k1 = 9;
   EDP.uex=@(t,x,y) cos(k1*x).*cos(k2*y).*cos(t);
   EDP.u0=@(x,y) cos(k1*x).*cos(k2*y);
   EDP.u1=@(x,y) 0;
   EDP.ubord=@(t,x,y) EDP.uex(t,x,y);
   EDP.f =@(t,x,y) (-1+k1^2+k2^2)*cos(k1*x).*cos(k2*y).*cos(t);
   Nt=100;
-##  EDP.omega=EDP.c*sqrt(k1^2+k2^2);
-##  EDP.uex=@(t,x,y) cos(EDP.omega*t-k1*x-k2*y);
-##  EDP.u0=@(x,y) cos(-k1*x-k2*y);
-##  EDP.u1=@(x,y) -EDP.omega*sin(-k1*x-k2*y);
-##  EDP.ubord=@(t,x,y) EDP.uex(t,x,y);
-##  EDP.f =@(t,x,y) 0;
-##  Nt=100;
   err=1;
   ht=EDP.T/Nt;
   while (err > 10^(-1.5))
@@ -75,7 +68,7 @@ for indice=1:length(EDP.k1)
 ##  title(strcat("Représentation de la solution en fonction de x en t=", num2str(t(end))));
 ##  hold off;
 ##  
-  s=sprintf('Pour k1=%d, il a fallu %d points de discrétisation en espace',k1,Nx);
+  s=sprintf('Pour k2=%d, il a fallu %d points de discrétisation en espace',k2,Nx);
   disp(s);
   err=1;
 endfor
