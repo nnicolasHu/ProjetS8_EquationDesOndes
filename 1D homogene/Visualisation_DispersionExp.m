@@ -4,15 +4,16 @@ close all
 PLOT_EXACT = 1;
 
 L=1; %longueur du domaine
-T=1.5; %temps de la simulation
+T=2; %temps de la simulation
 
 % 1. Initialisation de la structure EDP
 EDP.a=-L; EDP.b=L;
 EDP.t0=0; EDP.T=T;
-EDP.c=1; EDP.k=[2,10,20];
+EDP.c=1; EDP.k=[10,20,40];
 
 
 % 6. Représentation graphique pour certains temps
+Nx=50;
 for indice=1:length(EDP.k)
   k = EDP.k(indice);
   EDP.lambda=2*pi/k;
@@ -23,7 +24,7 @@ for indice=1:length(EDP.k)
   EDP.u1=@(x) -EDP.omega*sin(-k*x);
   EDP.ua=@(t) cos(EDP.omega*t-k*EDP.a);
   EDP.ub=@(t) cos(EDP.omega*t-k*EDP.b);
-  Nx=100;
+  
   Nt=1000;
   err=1;
   ht=EDP.T/Nt;
@@ -36,9 +37,9 @@ for indice=1:length(EDP.k)
     
     % 4. Resolution par le schema d'EULER explicite
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    disp('Calcul en cours...')
+    %disp('Calcul en cours...')
     [t,x,u]=EulerExplicite(EDP,Nt,Nx);
-    disp('Fin du calcul.')
+    %disp('Fin du calcul.')
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % 5. Representations graphiques
@@ -47,10 +48,10 @@ for indice=1:length(EDP.k)
    
     Err=abs(u-Uex)/MAX; % relative error
     err=max(NormInf(Err))/max(max(abs(Uex)));
-
-    fprintf('Erreur relative  (max en temps et espace) : %e\n',err);
     
   endwhile
+  
+  fprintf('Erreur relative  (max en temps et espace) : %e\n',err);
   
   figure();
   plot(x,u(:,end),";solution numérique;");
