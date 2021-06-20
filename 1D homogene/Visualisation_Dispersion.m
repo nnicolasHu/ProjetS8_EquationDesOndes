@@ -12,23 +12,27 @@ T=2; %temps de la simulation
 EDP.a=-L; EDP.b=L;
 EDP.t0=0; EDP.T=T;
 EDP.c=1; EDP.m=[3,6,9];
-
+Nx=50;
 % 6. Représentation graphique pour certains temps
 if PLOT_EXACT
   for m=EDP.m
-     Nx=500;
-     Nt=100000;
+     Nt=1000;
      err=1;
-     ht=EDP.T/Nt; hx=(EDP.b-EDP.a)/Nx;
-     CFL=EDP.c*ht/hx;
-     while (err>10^(-2)) & (CFL<1)
+     ht=EDP.T/Nt;
+     EDP.uex=@(t,x) cos((2*m+1)*pi*x/(2*L))*cos(EDP.c*(2*m+1)*pi*t/(2*L));
+     EDP.u0=@(x) cos((2*m+1)*pi*x/(2*L));
+     EDP.u1=@(x) 0*x;
+     EDP.ua=@(t) 0*t;
+     EDP.ub=@(t) 0*t;
+     while (err > 10^(-2))
+      Nx+=50;
+      hx=(EDP.b-EDP.a)/Nx;
+      CFL=EDP.c*ht/hx;
       s=sprintf('CFL : si (%f < 1) => convergence',CFL);
       disp(s);
-      EDP.uex=@(t,x) cos((2*m+1)*pi*x/(2*L))*cos(EDP.c*(2*m+1)*pi*t/(2*L));
-      EDP.u0=@(x) cos((2*m+1)*pi*x/(2*L));
-      EDP.u1=@(x) 0*x;
-      EDP.ua=@(t) 0*t;
-      EDP.ub=@(t) 0*t;
+      s=sprintf('CFL : si (%f < 1) => convergence',CFL);
+      disp(s);
+      
 
       
       % 4. Resolution par le schema d'EULER explicite
@@ -50,15 +54,15 @@ if PLOT_EXACT
       
 
       figure();
-      plot(x,u(:,2),";solution numérique;");
+      plot(x,u(:,end),";solution numérique;");
       hold on;
-      plot (x,Uex(:,2),";solution exacte;");
+      plot (x,Uex(:,end),";solution exacte;");
       legend();
       xlabel("x");
-      title(strcat("Représentation de la solution en fonction de x en t=", num2str(t(2))));
+      title(strcat("Représentation de la solution en fonction de x en t=", num2str(t(end))));
       hold off;
       
-      Nx=Nx*2;
+      Nx=Nx+15;
       ht=EDP.T/Nt; hx=(EDP.b-EDP.a)/Nx;
       CFL=EDP.c*ht/hx;
       %erreur
@@ -67,9 +71,9 @@ if PLOT_EXACT
       %xlabel("x");
       %title(strcat("Représentation de l'erreur en fonction de x en t=", num2str(t(i))));
     endwhile
-   err=1;
-   s=sprintf('Pour m=%d, il a fallu %d points de discrétisation en espace',m,Nx/2);
+   s=sprintf('Pour k=%d, il a fallu %d points de discrétisation en espace',m,Nx);
    disp(s);
+   err=1;;
   endfor
   
   
