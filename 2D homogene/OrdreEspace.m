@@ -62,6 +62,7 @@ figure(3);
 loglog(pas,err,'r');
 hold on;
 loglog(pas,pas.^2,'ko-');
+xlim([0.05,0.15]);
 title("Représentation de l'erreur en espace");
 legend(strcat('Erreur(dx), pente : ',num2str(pente)),"O(h^2)","location", "southeast");
 xlabel("h");

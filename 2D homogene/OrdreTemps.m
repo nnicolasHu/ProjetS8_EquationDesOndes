@@ -7,7 +7,9 @@ T=4; %temps de la simulation
 N_pas=3;
 pas=zeros(1,N_pas);
 err=zeros(1,N_pas);
-Nt =95; Nx=5; Ny=5;
+tmp = 16;
+Nt =96; 
+Nx=tmp; Ny=tmp;
 
 % 1. Initialisation de la structure EDP
 EDP.a=0; EDP.b=L;
@@ -58,10 +60,11 @@ end
 err
 pente=(log(err(N_pas))-log(err(1)))/(log(pas(N_pas))-log(pas(1)));
 
-figure(3);
+figure();
 loglog(pas,err,'r');
 hold on;
 loglog(pas,pas.^2,'ko-');
+xlim([0.025,0.06]);
 title("Representation de l'erreur en temps");
 legend(strcat('Erreur(dx), pente : ',num2str(pente)),"O(dt^2)","location", "southeast");
 xlabel("dt");
