@@ -53,18 +53,21 @@ for indice=1:length(EDP.k)
   
   fprintf('Erreur relative  (max en temps et espace) : %e\n',err);
   
+  temps = 1.5;
+  indice = find((t-temps)==0);
+  
   figure();
-  plot(x,u(:,end),";solution numérique;");
+  plot(x,u(:,indice),";solution numérique;");
   hold on;
-  plot (x,Uex(:,end),";solution exacte;");
+  plot (x,Uex(:,indice),";solution exacte;");
   legend();
   xlabel("x");
-  title(strcat("Représentation de la solution en fonction de x en t=", num2str(t(end))));
+  title(strcat("Représentation de la solution en fonction de x au temps t=", num2str(t(indice)),", pour k=", num2str(k), ", pas=", num2str(hx) ));
+  %annotation('textbox',[0 0 0.1 0.1],'string','my text');
   hold off;
   
   s=sprintf('Pour k=%d, il a fallu %d points de discrétisation en espace',k,Nx);
   disp(s);
+  disp(Nx);
   err=1;
 endfor
-##      temps = 1.5;
-##      indice = find((t-temps)==0);

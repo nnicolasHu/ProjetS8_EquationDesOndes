@@ -1,9 +1,9 @@
 clear all
 close all
 
-PLOT = 1;
+PLOT = 0;
 FREQ = 15;
-PLOT_EXACT = 0;
+PLOT_EXACT = 1;
 
 L=1; %longueur du domaine
 T=2; %temps de la simulation
@@ -11,7 +11,7 @@ T=2; %temps de la simulation
 % 1. Initialisation de la structure EDP
 EDP.a=-L; EDP.b=L;
 EDP.t0=0; EDP.T=T;
-EDP.c=1; EDP.k=2;
+EDP.c=1; EDP.k=40;
 EDP.lambda=2*pi/EDP.k;
 EDP.freq=EDP.c/EDP.lambda;
 EDP.omega=2*pi*EDP.freq;
@@ -75,15 +75,19 @@ end
 fprintf('Erreur relative  (max en temps et espace) : %e\n',max(Ninf)/max(max(abs(Uex_relle))));
 
 % 6. Représentation graphique pour certains temps
+
+temps = 1.5;
+indice = find((t-temps)==0);
+
 if PLOT_EXACT
-  for i=[2 ceil(Nt/2) Nt+1]
+  for i=indice
     figure();
     plot(x,u_relle(:,i),";solution numérique;");
     hold on;
     plot (x,Uex_relle(:,i),";solution exacte;");
     legend();
     xlabel("x");
-    title(strcat("Représentation de la solution en fonction de x en t=", num2str(t(i))));
+    title(strcat("Représentation de la solution en fonction de x au temps t=", num2str(t(indice)),", pour k=", num2str(EDP.k), ", pas=", num2str(hx) ));
     hold off;
     
   endfor
