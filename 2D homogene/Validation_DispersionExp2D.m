@@ -7,7 +7,7 @@ L=1; %longueur du domaine
 T=2; %temps de la simulation
 
 % 1. Initialisation de la structure EDP
-EDP.a=-L; EDP.b=L;
+EDP.a=0; EDP.b=L;
 EDP.t0=0; EDP.T=T;
 EDP.c=1; EDP.k1=[3,6,9]; EDP.k2=[3,6,9];
 
@@ -16,13 +16,13 @@ EDP.c=1; EDP.k1=[3,6,9]; EDP.k2=[3,6,9];
 Nx=10;Ny=10;
 for indice=1:length(EDP.k1)
   k1 = EDP.k1(indice);
-  k2 = 9;
-  EDP.c=1;
-  EDP.uex=@(t,x,y) sin(pi*x).*sin(pi*y).*cos(t^2);
-  EDP.u0=@(x,y) sin(pi*x).*sin(pi*y);
-  EDP.u1=@(x,y) 0;
+  k2 = 3;
+  EDP.omega = EDP.c * sqrt(k1^2 + k2^2);
+  EDP.uex=@(t,x,y) cos(-EDP.omega*t + k1*x + k2*y);
+  EDP.u0=@(x,y) cos(k1*x + k2*y);
+  EDP.u1=@(x,y) EDP.omega * sin(k1*x + k2*y);
   EDP.ubord=@(t,x,y) EDP.uex(t,x,y);
-  EDP.f =@(t,x,y) sin(pi*x).*sin(pi*y).*(-2.*sin(t.^2)-4.*t.^2.*cos(t.^2)) + EDP.c^2 *2* pi^2*sin(pi*x).*sin(pi*y).*cos(t.^2) ;
+  EDP.f =@(t,x,y) 0;
 ##  EDP.uex=@(t,x,y) cos(k1*x).*cos(k2*y).*cos(t);
 ##  EDP.u0=@(x,y) cos(k1*x).*cos(k2*y);
 ##  EDP.u1=@(x,y) 0;

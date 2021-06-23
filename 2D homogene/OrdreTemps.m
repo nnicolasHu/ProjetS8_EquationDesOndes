@@ -27,13 +27,13 @@ dt=(EDP.T-EDP.t0)/Nt
 [t,x,y,u]=EulerExplicite2Dbis(EDP,Nt,Nx,Ny);
 [yy xx] = meshgrid(y,x);
 
-%for n=15
-%  figure(1)
-%  surf(xx,yy,EDP.uex(t(n),xx,yy));
-  #surf(xx,yy,abs(EDP.uex(t(n),xx,yy)-Vec2dToMatrix(u(:,n),Nx+1,Ny+1)));
-%  figure(2)
-%  surf(xx,yy,Vec2dToMatrix(u(:,n),Nx+1,Ny+1))
-%endfor
+for n=30
+  figure(1)
+  surf(xx,yy,EDP.uex(t(n),xx,yy));
+  %surf(xx,yy,abs(EDP.uex(t(n),xx,yy)-Vec2dToMatrix(u(:,n),Nx+1,Ny+1)));
+  figure(2)
+  surf(xx,yy,Vec2dToMatrix(u(:,n),Nx+1,Ny+1))
+endfor
 
 for i=1:N_pas
   h=(EDP.b-EDP.a)/Ny;
@@ -64,7 +64,7 @@ figure();
 loglog(pas,err,'r');
 hold on;
 loglog(pas,pas.^2,'ko-');
-xlim([0.025,0.06]);
+xlim([0.025,0.05]);
 title("Representation de l'erreur en temps");
 legend(strcat('Erreur(dx), pente : ',num2str(pente)),"O(dt^2)","location", "southeast");
 xlabel("dt");

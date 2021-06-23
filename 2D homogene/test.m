@@ -7,29 +7,40 @@ T=2; %temps de la simulation
 ##N_pas=2;
 ##pas=zeros(1,N_pas);
 ##err=zeros(1,N_pas);
-Nt =21; Nx=10; Ny=10;
+Nt =100; Nx=35; Ny=35;
 
 % 1. Initialisation de la structure EDP
 EDP.a=0; EDP.b=L;
 EDP.t0=0; EDP.T=T;
-EDP.c=1;
-EDP.uex=@(t,x,y) sin(pi*x).*sin(pi*y).*cos(t);
-EDP.u0=@(x,y) sin(pi*x).*sin(pi*y);
-EDP.u1=@(x,y) 0;
-EDP.ubord=@(t,x,y) 0;
-EDP.f =@(t,x,y) (EDP.c^2 *2* pi^2 -1)*sin(pi*x).*sin(pi*y).*cos(t);
+EDP.c=1; EDP.k1=9; EDP.k2=3;
+EDP.omega = EDP.c * sqrt(EDP.k1^2 + EDP.k2^2);
+EDP.uex=@(t,x,y) cos(-EDP.omega*t + EDP.k1*x + EDP.k2*y);
+EDP.u0=@(x,y) cos(EDP.k1*x + EDP.k2*y);
+EDP.u1=@(x,y) EDP.omega * sin(EDP.k1*x + EDP.k2*y);
+EDP.ubord=@(t,x,y) EDP.uex(t,x,y);
+EDP.f =@(t,x,y) 0;
+
 
 
 
 [t,x,y,u]=EulerExplicite2Dbis(EDP,Nt,Nx,Ny);
 [yy xx] = meshgrid(y,x);
 
-for n=15
+temps = 1.5;
+indice = find((t-temps)==0);
+for n=indice
   figure(1)
   surf(xx,yy,EDP.uex(t(n),xx,yy));
+  title(strcat("Représentation de la solution exacte au temps t=", num2str(t(n)),", pour kx=", num2str(EDP.k1)));
+  xlabel("x");
+  ylabel("y");
   #surf(xx,yy,abs(EDP.uex(t(n),xx,yy)-Vec2dToMatrix(u(:,n),Nx+1,Ny+1)));
   figure(2)
-  surf(xx,yy,Vec2dToMatrix(u(:,n),Nx+1,Ny+1))
+  surf(xx,yy,Vec2dToMatrix(u(:,n),Nx+1,Ny+1));
+  title(strcat("Représentation de la solution numérique au temps t=", num2str(t(n)),", pour kx=", num2str(EDP.k1)));
+  xlabel("x");
+  ylabel("y");
+  zlim([-1,1]);
 endfor
 ##for i=1:N_pas
 ##  hy=(EDP.t0-EDP.T)/Ny;

@@ -25,13 +25,13 @@ dt=(EDP.T-EDP.t0)/Nt;
 [t,x,y,u]=EulerExplicite2Dbis(EDP,Nt,Nx,Ny);
 [yy xx] = meshgrid(y,x);
 
-%for n=15
-%  figure(1)
-%  surf(xx,yy,EDP.uex(t(n),xx,yy));
-  #surf(xx,yy,abs(EDP.uex(t(n),xx,yy)-Vec2dToMatrix(u(:,n),Nx+1,Ny+1)));
-%  figure(2)
-%  surf(xx,yy,Vec2dToMatrix(u(:,n),Nx+1,Ny+1))
-%endfor
+for n=15
+  figure(1)
+  surf(xx,yy,EDP.uex(t(n),xx,yy));
+  surf(xx,yy,EDP.uex(t(n),xx,yy));
+  figure(2)
+  surf(xx,yy,Vec2dToMatrix(u(:,n),Nx+1,Ny+1))
+endfor
 
 for i=1:N_pas
   h=(EDP.b-EDP.a)/Ny;
