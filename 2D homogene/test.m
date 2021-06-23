@@ -3,10 +3,7 @@ close all;
 
 L=1; %longueur du domaine
 T=2; %temps de la simulation
-
-##N_pas=2;
-##pas=zeros(1,N_pas);
-##err=zeros(1,N_pas);
+  
 Nt =100; Nx=35; Ny=35;
 
 % 1. Initialisation de la structure EDP
@@ -40,7 +37,6 @@ for n=indice
   title(strcat("Représentation de la solution numérique au temps t=", num2str(t(n)),", pour kx=", num2str(EDP.k1)));
   xlabel("x");
   ylabel("y");
-  zlim([-1,1]);
 endfor
 ##for i=1:N_pas
 ##  hy=(EDP.t0-EDP.T)/Ny;
